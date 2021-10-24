@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block header %}
+<link rel="stylesheet" type='text/css' href="{% static 'header.css' %}">
+<link rel="stylesheet" type='text/css' href="{% static 'login.css' %}">
+{% endblock header %}
+
+
+{% block content %}
+
+<header>
+    <div id="greede">SYE's</div>
+</header>
+
+<div class="login">
+    <h1>Login</h1>
+    <form method="POST">{% csrf_token %}
+        <input type="text" name="mailaddress_data" placeholder="Mail Address" required="required" />
+        <input type="password" name="password_data" placeholder="Password" required="required" />
+        <button type="submit" name="login" class="btn btn-primary btn-block btn-large">ログインする</button>
+    </form>
+</div>
+
+{% endblock content %}

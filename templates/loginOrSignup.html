@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block header %}
+<link rel="stylesheet" type='text/css' href="{% static 'header.css' %}">
+<link rel="stylesheet" type='text/css' href="{% static 'selectsign.css' %}">
+{% endblock header %}
+
+
+{% block content %}
+
+<header>
+    <div id="greede">greede</div>
+</header>
+
+<div class="form">
+    <form action="" method="POST">{% csrf_token %}
+        <div class="btn-div">
+            <h1 class="h1 fw-normal">ログインする</h1>
+            <button type="submit" name="login" class="btn btn-primary btn-block btn-large" id="btn-login">ログインする</button>
+        </div>
+        <div class="btn-div">
+            <h1 class="h1 fw-normal">サインアップ</h1>
+            <button type="submit" name="signup" class="btn btn-primary btn-block btn-large" id="btn-signup">signup</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block header %}
+<link rel="stylesheet" type='text/css' href="{% static 'header.css' %}">
+<link rel="stylesheet" type='text/css' href="{% static 'profile.css' %}">
+{% endblock header %}
+
+{% block content %}
+<div class="parent">
+   <div class="left">
+      {% if profile.image %}
+      <img src="{{ profile.image.url }}" alt="写真"> <!-- ----------------- 変え----------------- -->
+      {% endif %}
+      <h2>{{ profile.name }}</h2>
+   </div>
+
+   <div class="right">
+      <h2>自己紹介</h2>
+      <p>{{ profile.bio }}</p>
+   </div>
+</div>
+
+{% if set_profile %}
+<div id="set_profile">
+   <a href="{% url 'setProfile' profile.pk %}" class="btn">設定</a>
+</div>
+{% endif %}
+
+<div class="bottom">
+   <div class="jan white">
+      <h2>興味あるジャンル</h2>
+      {% for junre in junres %}
+      <li>{{ junre }}</li>
+      {% endfor %}
+   </div>
+
+   <div class="lang white">
+      <h2>興味ある言語</h2>
+      {% for language in languages %}
+      <li>{{ language }}</li>
+      {% endfor %}
+   </div>
+
+   <div class="book white">
+      <h2>読んだ本</h2>
+      {% for book in profile.books %}
+      <li>{{ book }}</li>
+      {% endfor %}
+   </div>
+
+   <div class="map white">
+      <h2>ロードマップ</h2>
+      {% for loadmap in profile.loadmaps %}
+      <ul class="accordion-area">
+         <li>
+            <section>
+               <h3 class="title ">{{ loadmap.name }}</h3>
+               <div class="box">
+                  {% for step in loadmap.steps %}
+                  <p>{{ step }}</p>
+                  {% endfor %}
+               </div>
+            </section>
+         </li>
+      </ul>
+      {% endfor %}
+   </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/9-2-1/js/9-2-1.js"></script>
+{% endblock content %}

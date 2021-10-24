@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block header %}
+<link rel="stylesheet" type='text/css' href="{% static 'header.css' %}">
+<link rel="stylesheet" type='text/css' href="{% static 'setProfile.css' %}">
+{% endblock header %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+<form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    <div class="image">
+        <p class="exp"><img src="{{ profile.image.url }}" alt="profile image" value="画像変更">
+            <label>
+                <input type="file" name="image" class="set_image">画像を変更
+            </label>
+        </p>
+    </div>
+
+    <div class="bio set_profile">
+        <div class="exp">bio</div>
+        <textarea name="bio" cols="30" rows="10">{{ profile.bio }}</textarea>
+    </div>
+    
+    <div class="set_language set_profile">
+        <p class="exp">興味ある言語</p>
+        {% for language in languages %}
+        <input type="checkbox" name="language" value="{{ language }}" id="{{ language }}">{{ language }}
+        {% endfor %}
+    </div>
+    
+    <div class="set_junre set_profile">
+        <p class="exp">興味あるジャンル</p>
+        {% for junre in junres %}
+        <input type="checkbox" name="junre" value="{{ junre }}" id="{{ junre }}">{{ junre }}
+        {% endfor %}
+    </div>
+
+    <div hidden id="hidden_user_languages">{{ profile.languages }}</div>
+
+    <div hidden id="hidden_user_junres">{{ profile.junres }}</div>
+
+    <input type="submit" value="設定する">
+</form>
+{% endif %}
+<script src="{% static 'setProfile.js' %}"></script>
+{% endblock content %}

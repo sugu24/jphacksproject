@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block header %}
+<link rel="stylesheet" type='text/css' href="{% static 'header.css' %}">
+<link rel="stylesheet" type='text/css' href="{% static 'signup.css' %}">
+{% endblock header %}
+
+
+{% block content %}
+
+<header>
+    <div id="greede">greede</div>
+</header>
+
+<div class="signup">
+    <h1>Signup</h1>
+    <form method="POST">{% csrf_token %}
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+        <input type="text" name="mailaddress_data" placeholder="Mail Address" required="required" />
+        <input type="password" name="password_data" placeholder="Password" required="required" />
+        <button type="submit" name="signup" class="btn btn-primary btn-block btn-large">signup</button>
+    </form>
+</div>
+
+{% endblock content %}
