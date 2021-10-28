@@ -8,12 +8,35 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
     <title>SYE's</title>
     {% block header %}
     {% endblock header %}
   </head>
   <body>
+    {% if user.is_authenticated %}
+    <header>
+      <h2>
+        <a href="#">SYE's</a>
+     </h2>
+      <div class="menu">
+        <form id="post_form_header" action="" method="POST">{% csrf_token %}
+          <ul>
+              <li><a href="http://127.0.0.1:8000/profile/">マイページ</a></li>
+              <li><a href="http://127.0.0.1:8000/booksImpressions/">本検索</a></li>
+              <li><a href="http://127.0.0.1:8000/bookRanking/">本ランキング</a></li>
+              <li><a href="http://127.0.0.1:8000/questionRooms/">質問</a></li>
+          </ul>
+        </form>
+      </div>
+   </header>
+    {% else %}
+    <header>
+      <h2>
+        <a href="#">SYE's</a>
+     </h2>
+    </header>
+    {% endif %}
+    
     {% block content %}
     {% endblock content %}
     <!-- Optional JavaScript; choose one of the two! -->

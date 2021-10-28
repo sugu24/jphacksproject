@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block header %}
+<link rel="stylesheet" type='text/css' href="{% static 'header.css' %}">
+<link rel="stylesheet" type='text/css' href="{% static 'bookRanking.css' %}">
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+    <h2 class="h2_exp">本のランキング</h2>
+    <div class="error"></div>
+    <div class="search_container">
+        <form id="post_form" action="" method="POST">{% csrf_token %}
+            <div id="error"></div>
+            <datalist id="language_and_junres">
+                {% for lanja in language_and_junre %}
+                <option value="{{ lanja }}">{{ lanja }}</option>
+                {% endfor %}
+            </datalist>
+            <div class="searches">
+                <div class="searchs_up">
+                    <div class="search_input">
+                        <input required="required" id="search_text" type="search" placeholder="言語またはジャンル" name="search_text" list="language_and_junres">
+                    </div>
+                    <div class="search_sample_number">
+                        <input required="required" id="search_sample" type="text" placeholder="サンプルの下限" name="search_sample">
+                    </div>
+                </div>
+                
+                <div class="search_bottom">
+                    <div class="search_diff_number">
+                        <input required="required" id="search_diff" type="text" placeholder="難易度 1～5" name="search_diff">
+                    </div>
+                    <div class="search_btn">
+                        <button class="btn btn btn-primary btn-block btn-large" type="submit" id="search_ajax_btn" name="search_ajax_btn">検索</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <div class="books_container">
+        <form action="" method="POST">{% csrf_token %}
+            <div id="bookRanking">
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{% static 'bookRanking.js' %}"></script>
+{% endblock content %}

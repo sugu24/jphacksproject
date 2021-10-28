@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block header %}
+<link rel="stylesheet" type='text/css' href="{% static 'header.css' %}">
+<link rel="stylesheet" type='text/css' href="{% static 'booksImpressions.css' %}">
+{% endblock header %}
+
+{% block content %}
+
+<div class="search_container">
+    <form id="post_form" action="" method="POST">{% csrf_token %}
+        <div id="error"></div>
+        <div class="searches">
+            <div class="search_input">
+                <input required="required" id="search_book_name" type="text" placeholder="本のタイトル">
+            </div>
+            <div class="btn_div">
+                <button class="btn btn btn-primary btn-block btn-large" type="submit" id="search_btn" name="search_btn">検索</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="books_container">
+    <form action="" method="POST">{% csrf_token %}
+        <div id="books">
+            
+        </div>
+    </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{% static 'booksImpressions.js' %}"></script>
+{% endblock content %}

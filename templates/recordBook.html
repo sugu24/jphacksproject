@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block header %}
+<link rel="stylesheet" type='text/css' href="{% static 'header.css' %}">
+<link rel="stylesheet" type='text/css' href="{% static 'recordBook.css' %}">
+{% endblock header %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<!--  {'title':title, 'image':image, 'language':language, 'junre':junre} -->
+
+<div class="container">
+    <h2 class="exp">読んだ本</h2>
+    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        <div class="book_data">
+            <div class="book_data_image">
+                <img class="data" src="{{ image }}" alt="book image" value="book image">
+            </div>
+            <div class="book_datas">
+                <p class="data" id="title">{{ title }}</p>
+                <p class="data">言語&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;{{ language }}</p>
+                <p class="data">ジャンル&nbsp;:&nbsp;{{ junre }}</p>
+            </div>
+            
+        </div>
+    
+        <div class="thoughts record_book">
+            <div class="exp">感想や学べたこと</div>
+            <textarea name="thoughts" cols="30" rows="10"></textarea>
+        </div>
+        
+        <div class="value record_book">
+            <p class="exp">本の評価</p>
+            <div class="stars">
+                <button class="star" id="value_star_1" style="color:yellow">★</button>
+                <button class="star" id="value_star_2" style="color:yellow">★</button>
+                <button class="star" id="value_star_3" style="color:yellow">★</button>
+                <button class="star" id="value_star_4">★</button>
+                <button class="star" id="value_star_5">★</button> 
+            </div>
+        </div>
+        
+        <div class="diff record_book">
+            <p class="exp">本の難易度</p>
+            <div class="star_diff">
+                <div class="stars">
+                    <button class="star" id="lower_diff_star_1" style="color:yellow">★</button>
+                    <button class="star" id="lower_diff_star_2" style="color:yellow">★</button>
+                    <button class="star" id="lower_diff_star_3" style="color:yellow">★</button>
+                    <button class="star" id="lower_diff_star_4">★</button>
+                    <button class="star" id="lower_diff_star_5">★</button> 
+                </div>
+                <div class="to_diff">から</div>
+                <div class="stars">
+                    <button class="star" id="upper_diff_star_1" style="color:yellow">★</button>
+                    <button class="star" id="upper_diff_star_2" style="color:yellow">★</button>
+                    <button class="star" id="upper_diff_star_3" style="color:yellow">★</button>
+                    <button class="star" id="upper_diff_star_4">★</button>
+                    <button class="star" id="upper_diff_star_5">★</button> 
+                </div>
+            </div>
+        </div>
+        <input hidden type="text" name="value_value" value="3" id="value_value">
+        <input hidden type="text" name="lower_diff_value" value="3" id="lower_diff_value">
+        <input hidden type="text" name="upper_diff_value" value="3" id="upper_diff_value">
+        <button type="submit" name="record" class="btn btn-primary btn-block btn-large">設定する</button>
+    </form>
+</div>
+
+{% endif %}
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="{% static 'recordBook.js' %}"></script>
+{% endblock content %}

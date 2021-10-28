@@ -1,53 +1,16 @@
-body{
-   height: 100%;
-   background-color: #f6f8fa;
-}
 
-.parent{
-   display: flex;
-}
-
-.right{
-   width: 70%;
-
-}
-.left{
-   width: 30%;
-   text-align: center;
-}
-
-img{
-   border-radius: 50%;  /* 角丸半径を50%にする(=円形にする) */
-   width:  180px;       /* ※縦横を同値に */
-   height: 180px;       /* ※縦横を同値に */
-}
-
-.white{
-   background-color: white;
-   border: solid 1px #000000;/*線*/
-   border-radius: 10px;/*角の丸み*/
-   margin-top: 15px ;
-   padding-left: 30px;
-   padding-bottom: 20px;
-
-}
-
-.bottom{
-   width: 70%;
-   margin-left: 40px;
-
-
-}
-
-.accordion-area{
-   list-style: none;
-   /* width: 96%; */
-   max-width: 900px;
-   padding-left:0px;
-}
-
-.accordion-area li{
-   margin: 0 0;
+body {
+   width: 100%;
+   height:100%;
+   margin-top: 1rem;
+   font-family: 'Open Sans', sans-serif;
+   background: #092756;
+   background: -moz-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%),-moz-linear-gradient(top,  rgba(57,173,219,.25) 0%, rgba(42,60,87,.4) 100%), -moz-linear-gradient(-45deg,  #670D10 0%, #092756 100%);
+   background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -webkit-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -webkit-linear-gradient(-45deg,  #670D10 0%,#092756 100%);
+   background: -o-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -o-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -o-linear-gradient(-45deg,  #670D10 0%,#092756 100%);
+   background: -ms-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -ms-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -ms-linear-gradient(-45deg,  #670D10 0%,#092756 100%);
+   background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), linear-gradient(to bottom,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), linear-gradient(135deg,  #670D10 0%,#092756 100%);
+   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3E1D6D', endColorstr='#092756',GradientType=1 );
 }
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
@@ -61,6 +24,174 @@ img{
 .btn-primary:hover, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] { filter: none; background-color: #4a77d4; }
 .btn-block { width: 100%; display:block; }
 
+* { -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -ms-box-sizing:border-box; -o-box-sizing:border-box; box-sizing:border-box; }
+
+.container{
+   margin: 2rem auto;
+   margin-top: 4rem;
+}
+
+.btn{
+   max-width: 200px;
+}
+
+.set_profile{
+   display: flex;
+   justify-content: center;
+}
+
+.set_profile_data{
+   margin: .5rem;
+}
+
+.parent{
+   width: 70%;
+   margin: auto;
+   display: flex;
+   color: white;
+}
+
+.right{
+   width: 60%;
+   padding-left: 2rem;
+}
+.left{
+   width: 40%;
+   max-width: 200px;
+}
+
+img{
+   border-radius: 50%;  /* 角丸半径を50%にする(=円形にする) */
+   width: 100%;         /* ※縦横を同値に */
+}
+
+.profile_data{
+   color: white;
+   margin: 1rem;
+   border-bottom: 1px solid white;
+   padding: 1rem;
+}
+
+.profile_data > h2{
+   text-align: center;
+}
+
+.profile_data_flex{
+   display: flex;
+   justify-content: center;
+}
+
+.none_btn{
+   background: none;
+   border-radius: 5px;
+   width: 90%;
+   margin-bottom: 1rem;
+   border: none;
+   text-align: left;
+   color: white;
+}
+
+.none_btn:hover{
+   color: gray;
+   transition: all .2s ease;
+}
+
+.data{
+   margin:1rem;
+}
+
+.loadmap_book{
+   display: flex;
+   width: 100%;
+}
+
+.book_data{
+   margin: 0.5rem;
+   padding: 1rem;
+   display: flex;
+   font-size: .5rem;
+   border-bottom: 1px dashed white;
+}
+
+.book_title{
+   margin-bottom: 0;
+}
+
+.value_data{
+   margin: 1rem;
+   min-width: 200px;
+}
+
+.value_value_data{
+   display: flex;
+}
+
+.value_diff_data{
+   display: flex;
+}
+
+.exp{
+   margin: auto 0 auto 0;
+}
+
+.star{
+   color: white;
+   background: none;
+   border: none;
+   width: 1.5rem;
+   font-size: 1.25rem;
+   text-align: center;
+}
+
+.star_diff{
+   display: flex;
+   justify-content: center;
+}
+
+.to_diff{
+   font-size: 1rem;
+   color: white;
+   margin: auto 1rem;
+}
+
+.image_data{
+   width: 30%;
+   max-width: 200px;;
+   text-align: center;
+}
+
+.image_data > img{
+   border-radius: 0;
+   max-width: 100px;
+   max-height: 150px;
+}
+
+.book{
+   border: none;
+}
+
+.jump_to_book{
+   text-decoration: none;
+   color: white;
+}
+
+.jump_to_book:hover{
+   color: gray;
+}
+
+.accordion-area{
+   list-style: none;
+   /* width: 96%; */
+   max-width: 900px;
+   padding-left:0px;
+   border: 1px dashed white;
+   border-radius: 5px;
+}
+
+.accordion-area li{
+   margin: 0 0;
+}
+
 
 /*アコーディオンタイトル*/
 .title {
@@ -70,6 +201,7 @@ img{
    /* font-weight: normal; */
    padding: 3% 3% 3% 40px;
    transition: all .5s ease;
+   margin: 0;
 }
 
 /*アイコンの＋と×*/
@@ -79,7 +211,7 @@ img{
    content:'';
    width: 15px;
    height: 2px;
-   background-color: #333;
+   background-color: white;
 
 }
 .title::before{
@@ -105,8 +237,7 @@ img{
 
 /*アコーディオンで現れるエリア*/
 .box {
-   display: none;/*はじめは非表示*/
-   background: #f3f3f3;
+   display: none;
    margin:0 3% 3% 3%;
-   padding: 3%;
+   padding-left: 1rem;
 }

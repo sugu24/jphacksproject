@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<link rel="stylesheet" href="https://cdn.rawgit.com/theus/chart.css/v1.0.0/dist/chart.css" />
+<link rel="stylesheet" type='text/css' href="{% static 'header.css' %}">
+<link rel="stylesheet" type='text/css' href="{% static 'impressions.css' %}">
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+  <h2 class="title">みんなの感想</h2>
+  <div class="book_data book_data_up">
+		<div id="bookimage">
+      <img src="{{ book.image }}" alt="book image">
+		</div>
+    <div id = "information">
+      <h5>{{ book.name }}</h5>
+      <p>平均評価&nbsp;:&nbsp;{{ value }}</p>
+      <p>言語&nbsp;:&nbsp;{{ book.language }}</p>
+      <p>ジャンル&nbsp;:&nbsp;{{ book.junre }}</p>
+      <p>読んだ人数&nbsp;:&nbsp;<span id="count">{{ count }}</span></p>
+    </div>
+  </div>
+  <div class="book_data book_data_bottom">
+    <div class="values">
+      <div class="value_exp">
+        <div class="charts">
+          <h5 class="chart_title">本の難易度</h5>
+          <div class="chart">
+            <div class="chart_exp">1</div>
+            <input hidden type="text" id="diff1" value="{{ book.diff1 }}">
+            <div id="diff1_chart" class="charts__chart  chart--yellow chart--default" data-percent ></div><!-- /.charts__chart -->
+          </div>
+          <div class="chart">
+            <div class="chart_exp">2</div>
+            <input hidden type="text" id="diff2" value="{{ book.diff2 }}">
+            <div id="diff2_chart" class="charts__chart  chart--yellow chart--default" data-percent></div><!-- /.charts__chart -->
+          </div>
+          <div class="chart">
+            <div class="chart_exp">3</div>
+            <input hidden type="text" id="diff3" value="{{ book.diff3 }}">
+            <div id="diff3_chart" class="charts__chart  chart--yellow chart--default" data-percent></div><!-- /.charts__chart -->
+          </div>
+          <div class="chart">
+            <div class="chart_exp">4</div>
+            <input hidden type="text" id="diff4" value="{{ book.diff4 }}">
+            <div id="diff4_chart" class="charts__chart  chart--yellow chart--default" data-percent></div><!-- /.charts__chart -->
+          </div>
+          <div class="chart">
+            <div class="chart_exp">5</div>
+            <input hidden type="text" id="diff5" value="{{ book.diff5 }}">
+            <div id="diff5_chart" class="charts__chart  chart--yellow chart--default" data-percent></div><!-- /.charts__chart -->
+          </div>
+        </div><!-- /.charts -->
+      </div>
+    </div>
+    <div class="values">
+      <div class="value_exp">
+        <div class="charts">
+          <h5 class="cahrt_title">本の評価</h5>
+          <div class="chart">
+            <div class="chart_exp">1</div>
+            <input hidden type="text" id="val1" value="{{ value1 }}">
+            <div id="val1_chart" class="charts__chart  chart--yellow chart--default" data-percent ></div><!-- /.charts__chart -->
+          </div>
+          <div class="chart">
+            <div class="chart_exp">2</div>
+            <input hidden type="text" id="val2" value="{{ value2 }}">
+            <div id="val2_chart" class="charts__chart  chart--yellow chart--default" data-percent></div><!-- /.charts__chart -->
+          </div>
+          <div class="chart">
+            <div class="chart_exp">3</div>
+            <input hidden type="text" id="val3" value="{{ value3 }}">
+            <div id="val3_chart" class="charts__chart  chart--yellow chart--default" data-percent></div><!-- /.charts__chart -->
+          </div>
+          <div class="chart">
+            <div class="chart_exp">4</div>
+            <input hidden type="text" id="val4" value="{{ value4 }}">
+            <div id="val4_chart" class="charts__chart  chart--yellow chart--default" data-percent></div><!-- /.charts__chart -->
+          </div>
+          <div class="chart">
+            <div class="chart_exp">5</div>
+            <input hidden type="text" id="val5" value="{{ value5 }}">
+            <div id="val5_chart" class="charts__chart  chart--yellow chart--default" data-percent></div><!-- /.charts__chart -->
+          </div>
+        </div><!-- /.charts -->
+      </div>
+    </div>
+  </div>
+  <div id="kutikomi">
+    <h3>読者の感想</h3>
+  </div>
+  <form id="post_form" action="" method="POST">{% csrf_token %}
+    {% for reader in readers %}
+    <div class="containeruser">
+      <div class="userimage">
+        <button class="none_btn" type="submit" id="jump_img_btn" name="jump_img_btn" value="{{ reader.reader.pk }}">
+          <img src="{{ reader.reader.image.url }}" alt="user image">
+        </button>
+      </div>
+      <div class="userimpression">
+        <div class="username">
+          <button class="none_btn" type="submit" id="jump_name_btn" name="jump_name_btn" value="{{ reader.reader.pk }}">
+            {{ reader.reader.name }}
+          </button>
+        </div>
+        <p class="book_value">評価&nbsp;:&nbsp;{{ reader.value }}</p>
+        <p>{{ reader.thoughts }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{% static 'impressions.js' %}"></script>
+{% endblock content %}

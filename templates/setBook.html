@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block header %}
+<link rel="stylesheet" type='text/css' href="{% static 'header.css' %}">
+<link rel="stylesheet" type='text/css' href="{% static 'setBook.css' %}">
+{% endblock header %}
+
+{% block content %}
+
+<div class="container">
+    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        <div class="book_data">
+            <h2 id="title">{{ title }}</h2>
+            <img src="{{ imageUrl }}" alt="book image" value="book image">
+            <p>お手数ですが、初めて登録される本のためご協力ください</p>
+        </div>
+        
+        <div class="set_language set_show">
+            <p class="exp">本の言語</p>
+            {% for language in languages %}
+            <label>
+                <input type="radio" name="language" value="{{ language }}" id="{{ language }}">{{ language }}
+            </label>
+            {% endfor %}
+            <label>
+                <input type="radio" name="language" value="none" id="none1">なし
+            </label>
+        </div>
+        
+        <div class="set_junre set_show">
+            <p class="exp">本のジャンル</p>
+            {% for junre in junres %}
+            <label>
+                <input type="radio" name="junre" value="{{ junre }}" id="{{ junre }}">{{ junre }}
+            </label>
+            {% endfor %}
+            <label>
+                <input type="radio" name="junre" value="none" id="none2">なし
+            </label>
+        </div>
+        <input hidden type="text" name="title" value="{{ title }}">
+        <input hidden type="text" name="imageUrl" value="{{ imageUrl }}">
+        <button type="submit" name="book_data" class="btn btn-primary btn-block btn-large">設定する</button>
+    </form>
+</div>
+
+{% endblock content %}

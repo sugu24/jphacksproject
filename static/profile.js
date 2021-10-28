@@ -11,13 +11,22 @@ $('.title').on('click', function() {//タイトル要素をクリックしたら
   }
 });
 
-//ページが読み込まれた際にopenクラスをつけ、openがついていたら開く動作※不必要なら下記全て削除
-$(window).on('load', function(){
-  $('.accordion-area li:first-of-type section').addClass("open"); //accordion-areaのはじめのliにあるsectionにopenクラスを追加
-  $(".open").each(function(index, element){ //openクラスを取得
-    var Title =$(element).children('.title'); //openクラスの子要素のtitleクラスを取得
-    $(Title).addClass('close');       //タイトルにクラス名closeを付与し
-    var Box =$(element).children('.box'); //openクラスの子要素boxクラスを取得
-    $(Box).slideDown(500);          //アコーディオンを開く
-  });
-});
+
+window.onload = function(){
+  var count = document.getElementsByClassName('book_data').length
+  for (var n = 0; n < count; n++){
+    var value = document.getElementById("book_value_" + String(n)).value
+    var lower_diff = document.getElementById("book_lower_diff_" + String(n)).value
+    var upper_diff = document.getElementById('book_upper_diff_' + String(n)).value
+    var star_id
+    for (var i = 1; i < 6; i++){
+      star_id = "value_star_" + String(i) + "_" + String(n)
+      if (value >= i)
+        document.getElementById(star_id).style.color = "yellow"
+      star_id = "diff_star_" + String(i) + "_" + String(n)
+      if (lower_diff <= i && upper_diff >= i)
+        document.getElementById(star_id).style.color = "yellow"
+    }
+  }
+}
+

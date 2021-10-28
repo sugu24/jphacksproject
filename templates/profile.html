@@ -7,67 +7,136 @@
 {% endblock header %}
 
 {% block content %}
-<div class="parent">
-   <div class="left">
-      {% if profile.image %}
-      <img src="{{ profile.image.url }}" alt="写真"> <!-- ----------------- 変え----------------- -->
-      {% endif %}
-      <h2>{{ profile.name }}</h2>
+<div class="container">
+   <div class="parent">
+      <div class="left">
+         {% if profile.image %}
+         <img src="{{ profile.image.url }}" alt="profile image" class="profile_image"> <!-- ----------------- 変え----------------- -->
+         {% endif %}
+      </div>
+   
+      <div class="right">
+         <h2>{{ profile.name }}</h2>
+         <p>{{ profile.bio }}</p>
+      </div>
    </div>
-
-   <div class="right">
-      <h2>自己紹介</h2>
-      <p>{{ profile.bio }}</p>
+   
+   {% if set_profile %}
+   <div class="set_profile">
+      <div class="set_profile_data">
+         <a href="{% url 'setProfile' profile.pk %}" class="btn btn-primary btn-block btn-large">プロフィールの変更</a>
+      </div>
+      <div class="set_profile_data">
+         <a href="{% url 'setReadBook' %}" class="btn btn-primary btn-block btn-large">読んだ本の追加</a>
+      </div>
    </div>
-</div>
+   {% endif %}
+   
+   <div class="bottom">
+      <div class="jan profile_data">
+         <h2>興味あるジャンル</h2>
+         <div class="profile_data_flex">
+            {% for junre in junres %}
+            <div class="data">{{ junre }}</div>
+            {% endfor %}
+         </div>
+      </div>
+   
+      <div class="lang profile_data">
+         <h2>興味ある言語</h2>
+         <div class="profile_data_flex">
+            {% for language in languages %}
+            <div class="data">{{ language }}</div>
+            {% endfor %}
+         </div>
+      </div>
 
-{% if set_profile %}
-<div id="set_profile">
-   <a href="{% url 'setProfile' profile.pk %}" class="btn">設定</a>
-</div>
-{% endif %}
-
-<div class="bottom">
-   <div class="jan white">
-      <h2>興味あるジャンル</h2>
-      {% for junre in junres %}
-      <li>{{ junre }}</li>
-      {% endfor %}
-   </div>
-
-   <div class="lang white">
-      <h2>興味ある言語</h2>
-      {% for language in languages %}
-      <li>{{ language }}</li>
-      {% endfor %}
-   </div>
-
-   <div class="book white">
-      <h2>読んだ本</h2>
-      {% for book in profile.books %}
-      <li>{{ book }}</li>
-      {% endfor %}
-   </div>
-
-   <div class="map white">
-      <h2>ロードマップ</h2>
-      {% for loadmap in profile.loadmaps %}
-      <ul class="accordion-area">
-         <li>
-            <section>
-               <h3 class="title ">{{ loadmap.name }}</h3>
-               <div class="box">
-                  {% for step in loadmap.steps %}
-                  <p>{{ step }}</p>
-                  {% endfor %}
+      <div class="map profile_data">
+         <h2>ロードマップ</h2>
+         <form action="" method="POST">{% csrf_token %}
+            {% for language, books in language_loadmap.items %}
+            <ul class="accordion-area">
+               <li>
+                  <section>
+                     <h3 class="title">{{ language }}</h3>
+                     <div class="box">
+                        {% for book in books %}
+                        <div class="loadmap_book">{{ forloop.counter }}&nbsp;:&nbsp;
+                           <a class="jump_to_book" href="#{{ book.book.ibsn }}">
+                              {{ book.book.name }}
+                           </a>
+                        </div>
+                        {% endfor %}
+                     </div>
+                  </section>
+               </li>
+            </ul>
+            {% endfor %}
+            {% for junre, books in junre_loadmap.items %}
+            <ul class="accordion-area">
+               <li>
+                  <section>
+                     <h3 class="title">{{ junre }}</h3>
+                     <div class="box">
+                        {% for book in books %}
+                        <div class="loadmap_book">{{ forloop.counter }}&nbsp;:&nbsp;
+                           <a class="jump_to_book" href="#{{ book.book.ibsn }}">
+                              {{ book.book.name }}
+                           </a>
+                        </div>
+                        {% endfor %}
+                     </div>
+                  </section>
+               </li>
+            </ul>
+            {% endfor %}
+         </form>
+      </div>
+      
+      <div class="book profile_data">
+         <h2>読んだ本</h2>
+         {% for book in read_book %}
+         <div class="book_data" id="{{ book.book.ibsn }}">
+            <div class="image_data">
+               <img src="{{ book.book.image }}" alt="read book">
+            </div>
+            <div class="value_data">
+               <p class="book_title">{{ book.book.name }}</p>
+               <div class="value_value_data">
+                  <p class="exp">評価&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</p>
+                  <div class="stars">
+                     <input hidden type="text" name="diff" id="book_value_{{ forloop.counter0 }}" value="{{ book.value }}">                      
+                     <button type="button" class="star" id="value_star_1_{{ forloop.counter0 }}">★</button>
+                     <button type="button" class="star" id="value_star_2_{{ forloop.counter0 }}">★</button>
+                     <button type="button" class="star" id="value_star_3_{{ forloop.counter0 }}">★</button>
+                     <button type="button" class="star" id="value_star_4_{{ forloop.counter0 }}">★</button>
+                     <button type="button" class="star" id="value_star_5_{{ forloop.counter0 }}">★</button> 
+                  </div>
                </div>
-            </section>
-         </li>
-      </ul>
-      {% endfor %}
+               <div class="value_diff_data">
+                  <p class="exp">難易度帯&nbsp;:&nbsp;</p>
+                  <div class="stars">
+                     <input hidden type="text" name="diff" id="book_lower_diff_{{ forloop.counter0 }}" value="{{ book.lower_diff }}">
+                     <input hidden type="text" name="diff" id="book_upper_diff_{{ forloop.counter0 }}" value="{{ book.upper_diff }}">
+                     <button class="star" id="diff_star_1_{{ forloop.counter0 }}">★</button>
+                     <button class="star" id="diff_star_2_{{ forloop.counter0 }}">★</button>
+                     <button class="star" id="diff_star_3_{{ forloop.counter0 }}">★</button>
+                     <button class="star" id="diff_star_4_{{ forloop.counter0 }}">★</button>
+                     <button class="star" id="diff_star_5_{{ forloop.counter0 }}">★</button> 
+                  </div>
+               </div>
+               <div class="value_thoughts_data">
+                  <p class="exp">感想</p>
+                  {{ book.thoughts }}
+               </div>
+            </div>
+         </div>
+         {% endfor %}
+      </div>
    </div>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-<script src="https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/9-2-1/js/9-2-1.js"></script>
+<script src="{% static 'profile.js' %}"></script>
 {% endblock content %}

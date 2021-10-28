@@ -5,16 +5,17 @@ from django.contrib.auth.models import User
 class UserModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=30, blank=True)
-    image = models.ImageField(upload_to='', default='ともや.JPG')
+    image = models.ImageField(upload_to='', default='ヒントからの最終盤面1.png')
     bio = models.CharField(max_length=300, null=True, blank=True)
     junres = models.CharField(max_length=1000, null=True, blank=True)
     languages = models.CharField(max_length=1000, null=True, blank=True)
     favorite_books = models.CharField(max_length=1000, null=True, blank=True)
 
 
-class bookModels(models.Model):
+class bookModel(models.Model):
     name = models.CharField(max_length=100)
-    page = models.IntegerField()
+    ibsn = models.CharField(max_length=15, null=True, blank=True)
+    image = models.CharField(max_length=200, null=True, blank=True)
     language = models.CharField(max_length=20, null=True, blank=True)
     junre = models.CharField(max_length=20, null=True, blank=True)
     diff1 = models.IntegerField(null=True, blank=True, default=0)
@@ -24,26 +25,29 @@ class bookModels(models.Model):
     diff5 = models.IntegerField(null=True, blank=True, default=0)
 
 
-class readBooksModels(models.Model):
-    reader = models.ForeignKey(User, on_delete=models.CASCADE)
-    book = models.ForeignKey(bookModels, on_delete=models.CASCADE)
+class readBooksModel(models.Model):
+    reader = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name = "readerOf")
+    book = models.ForeignKey(bookModel, on_delete=models.CASCADE, related_name="readBookOf")
     thoughts = models.TextField()
     value = models.IntegerField()
     lower_diff = models.IntegerField()
     upper_diff = models.IntegerField()
+    order_language = models.IntegerField(null=True, blank=True)
+    order_junre = models.IntegerField(null=True, blank=True)
 
 
-class postModels(models.Model):
-    profile = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    book = models.ForeignKey(bookModels, on_delete=models.CASCADE)
+class postModel(models.Model):
+    profile = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name="profileOf")
+    book = models.ForeignKey(bookModel, on_delete=models.CASCADE, related_name="postBookOf")
     type = models.CharField(max_length=10)
     to = models.IntegerField(null=True, blank=True, default=0)
     good = models.IntegerField(null=True, blank=True, default=0)
+    language_junre = models.CharField(max_length=40, blank=True, null=True)
 
 
-class languagesModels(models.Model):
+class languagesModel(models.Model):
     language = models.CharField(max_length=200, null=True, blank=True, default="C C++ C# Python JavaScript")
 
 
-class junresModels(models.Model):
+class junresModel(models.Model):
     junres = models.CharField(max_length=200, default="django llvm agax")

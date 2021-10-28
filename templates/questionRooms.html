@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block header %}
+<link rel="stylesheet" type='text/css' href="{% static 'header.css' %}">
+<link rel="stylesheet" type='text/css' href="{% static 'questionRooms.css' %}">
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+    <h2 class="h2_exp">質問ルーム選択</h2>
+    <div class="error"></div>
+    <div class="language_select">
+        <form id="post_form" action="" method="POST">{% csrf_token %}
+            <div id="error"></div>
+            {% for language in languages %}
+            <div class="language_btn_div">
+                <button type="submit" class="language_btn" name="select_language" value="{{ language }}">{{ language }}</button>
+            </div>
+            {% endfor %}
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
