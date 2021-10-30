@@ -8,6 +8,7 @@ header{
    background: #092756;
    height: 3rem;
    z-index: 99;
+   font-size: 0.6rem;
 }
 header h2{
    margin: 0;

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block header %}
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type='text/css' href="{% static 'header.css' %}">
+<link rel="stylesheet" type='text/css' href="{% static 'questions.css' %}">
+{% endblock header %}
+
+{% block content %}
+
+<main class="container">
+   <h2 class="title">{{ room }}の質問ルーム</h2>
+   <form action="" method="POST">{% csrf_token %}
+      <div class="question_post">
+         <h5 class="question_exp">質問投稿</h5>
+         <textarea name="question_text" id="question_text" cols="40" rows="3"></textarea>
+         <div class="question_post_btn">
+            <button class="btn btn btn-primary btn-block btn-large" type="submit" id="search_btn" name="post_user" value="{{ post_user.pk }}">投稿</button>
+         </div>
+      </div>
+      <!-- 繰り返し -->
+      <div class="questions_container">
+         {% for question in questions %}
+         <div class="question">
+            <div class="user_data">
+               <div class="userimage">
+                  <button class="none_btn" type="submit" id="jump_img_btn" name="jump_img_btn" value="{{ question.profile.pk }}">
+                     <img src="{{ question.profile.image.url }}" alt="user image">
+                  </button>
+               </div>
+               <div class="username">
+                  {{ question.profile.name }}
+               </div>
+            </div>
+            
+            <div class="question_data">
+               <div class="jump_QandA_room">
+                  <button type="submit" name="QandA_room" class="btn btn-primary btn-block btn-large" value="{{ question.pk }}">回答ルームへ</button>
+               </div>
+               <div class="question_text">
+                  {{ question.question }}
+               </div>
+            </div>
+         </div>
+         {% endfor %}
+      </div>
+   </form>
+</main>
+{% endblock content %}

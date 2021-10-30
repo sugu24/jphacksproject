@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from .models import UserModel, bookModel, readBooksModel, postModel, languagesModel, junresModel
+from .models import UserModel, answerModel, bookModel, readBooksModel, questionModel, languagesModel, junresModel
 from django.contrib.auth.decorators import login_required
 import requests
 from django.http import JsonResponse
@@ -72,18 +72,25 @@ def profileView(request, pk=0):
         if pk == 0 or UserModel.objects.get(pk=pk).user == request.user:
             profile = UserModel.objects.get(user=request.user)
             read_book = readBooksModel.objects.filter(reader=profile)
-            languages = list(profile.languages.split())
-            junres = list(profile.junres.split())
+            if profile.languages is None:
+                languages = ""
+            else:
+                languages = list(profile.languages.split())
+            if profile.junres is None:
+                junres = ""
+            else:
+                junres = list(profile.junres.split())
             junre_loadmap = dict()
             language_loadmap = dict()
             for book in read_book:
-                if book.book.junre == 'none':
+                print(book.book.junre, book.book.language)
+                if book.book.junre == "none":
                     pass
                 elif book.book.junre in junre_loadmap:
                     junre_loadmap[book.book.junre].append(book)
                 else:
                     junre_loadmap[book.book.junre] = [book]
-                if book.book.language == 'none':
+                if book.book.language == "none":
                     pass
                 elif book.book.language in language_loadmap:
                     language_loadmap[book.book.language].append(book)
@@ -93,18 +100,24 @@ def profileView(request, pk=0):
         elif pk > 0:
             profile = UserModel.objects.get(pk=pk)
             read_book = readBooksModel.objects.filter(reader=profile)
-            languages = list(profile.languages.split())
-            junres = list(profile.junres.split())
+            if profile.languages is None:
+                languages = ""
+            else:
+                languages = list(profile.languages.split())
+            if profile.junres is None:
+                junres = ""
+            else:
+                junres = list(profile.junres.split())
             junre_loadmap = dict()
             language_loadmap = dict()
             for book in read_book:
-                if book.book.junre == 'none':
+                if book.book.junre == "none":
                     pass
                 elif book.book.junre in junre_loadmap:
                     junre_loadmap[book.book.junre].append(book)
                 else:
                     junre_loadmap[book.book.junre] = [book]
-                if book.book.language == 'none':
+                if book.book.language == "none":
                     pass
                 elif book.book.language in language_loadmap:
                     language_loadmap[book.book.language].append(book)
@@ -200,13 +213,16 @@ def setBookView(request, ibsn):
         junre = request.POST.get('junre')
         title = request.POST.get('title')
         imageUrl = request.POST.get('imageUrl')
-        bookModel.objects.create(
-            name = title,
-            ibsn = ibsn,
-            image = imageUrl,
-            language = language,
-            junre = junre
-        )
+        try:
+            book = bookModel.objects.get(ibsn=ibsn)
+        except ObjectDoesNotExist:
+            bookModel.objects.create(
+                name = title,
+                ibsn = ibsn,
+                image = imageUrl,
+                language = language,
+                junre = junre
+            )
         return redirect('recordBook', ibsn)
     else:
         REQUEST_URL = "https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404"
@@ -244,7 +260,6 @@ def recordBookView(request, isbn):
         except ObjectDoesNotExist:
             order_language = readBooksModel.objects.filter(reader=reader, book__language=book.language).count()
             order_junre = readBooksModel.objects.filter(reader=reader, book__junre=book.junre).count()
-            print(order_junre, order_language)
             readBooksModel.objects.create(
                 reader = reader,
                 book = book,
@@ -291,6 +306,9 @@ def bookRankingView(request):
             diff = int(request.POST.get('diff'))
             candidate_books = bookModel.objects.filter(Q(language=search_text)|Q(junre=search_text))
             
+            if len(candidate_books) == 0:
+                return JsonResponse({"error": "選択された言語またはジャンルには本がありません"})
+
             candidate_books_dict = dict()
             diffs = [0,0,0,0,0,0]
             for candidate_book in candidate_books:
@@ -385,8 +403,65 @@ def booksImpressionsView(request):
 @login_required
 def questionRoomsView(request):
     if request.method == "POST":
-        print(request.POST)
-
+        if 'select_language' in request.POST:
+            room = request.POST.get('select_language')
+        elif 'my_question' in request.POST:
+            room = request.POST.get('my_question')
+        return redirect('questions', room)
     else:
         languages = list(str(languagesModel.objects.get().language).split())
         return render(request, 'questionRooms.html', {"languages": languages})
+
+
+@login_required
+def questionsView(request, room):
+    if request.method == 'POST':
+        print(request.POST)
+        if 'jump_img_btn' in request.POST:
+            profile_pk = request.POST.get('jump_img_btn')
+            return redirect('profile', profile_pk)
+        elif 'QandA_room' in request.POST:
+            question  = request.POST.get('QandA_room')
+            return redirect('qAndARoom', question)
+        elif 'post_user' in request.POST:
+            post_user = UserModel.objects.get(pk=request.POST.get('post_user'))
+            question = request.POST.get('question_text')
+            questionModel.objects.create(
+                profile = post_user,
+                room = room,
+                question = question
+            )
+            return redirect('questions', room)
+    else:
+        user = UserModel.objects.get(user=request.user)
+        if room == 'my_question':
+            questions = questionModel.objects.filter(profile=user).order_by('pk').reverse()
+            room = user.name
+        else:
+            questions = questionModel.objects.filter(room=room).order_by('pk').reverse()
+        return render(request, 'questions.html', {"room": room, "questions": questions, "post_user": user})
+
+
+@login_required
+def qAndARoomView(request, pk):
+    if request.method == 'POST':
+        print(request.POST)
+        if 'jump_img_btn' in request.POST:
+            profile_pk = request.POST.get('jump_img_btn')
+            return redirect('profile', profile_pk)
+        elif 'post_user' in request.POST:
+            post_user_pk = request.POST.get('post_user')
+            post_user = UserModel.objects.get(pk=post_user_pk)
+            answer_text = request.POST.get('answer_text')
+            question = questionModel.objects.get(pk=pk)
+            answerModel.objects.create(
+                profile = post_user,
+                response_to = question,
+                answer = answer_text
+            )
+            return redirect('qAndARoom', pk)
+    else:
+        question = questionModel.objects.get(pk=pk)
+        user = UserModel.objects.get(user=request.user)
+        answers = answerModel.objects.filter(response_to=question).order_by('pk')
+        return render(request, 'qAndARoom.html', {"question": question, "post_user": user, "answers": answers})

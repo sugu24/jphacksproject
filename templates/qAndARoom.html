@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block header %}
+<link rel="stylesheet" type='text/css' href="{% static 'header.css' %}">
+<link rel="stylesheet" type='text/css' href="{% static 'qAndARoom.css' %}">
+{% endblock header %}
+
+{% block content %}
+
+<div class="container">
+   <h2>回答ルーム</h2>
+   <form action="" method="POST">{% csrf_token %}
+      <div class="question_container">
+         <h5 class="question_exp">質問</h5>
+         <div class="question">
+            <div class="user_data">
+               <div class="userimage">
+                  <button class="none_btn" type="submit" id="jump_img_btn" name="jump_img_btn" value="{{ question.profile.pk }}">
+                     <img src="{{ question.profile.image.url }}" alt="user image">
+                  </button>
+               </div>
+               <div class="username">
+                  {{ question.profile.name }}
+               </div>
+            </div>
+            
+            <div class="question_data">
+               <div class="question_text">
+                  {{ question.question }}
+               </div>
+            </div>
+         </div>
+      </div>
+      
+      <div class="answer_container">
+         <h5>回答</h5>
+         {% for answer in answers %}
+         <div class="answer">
+            <div class="user_data">
+               <div class="userimage">
+                  <button class="none_btn" type="submit" id="jump_img_btn" name="jump_img_btn" value="{{ answer.profile.pk }}">
+                     <img src="{{ answer.profile.image.url }}" alt="user image">
+                  </button>
+               </div>
+               <div class="username">
+                  {{ answer.profile.name }}
+               </div>
+            </div>
+            
+            <div class="answer_data">
+               <div class="answer_text">
+                  {{ answer.answer }}
+               </div>
+            </div>
+         </div>
+         {% endfor %}
+      </div>
+   </form>
+
+   <form action="" method="POST">{% csrf_token %}
+      <div class="answer_post">
+         <h5 class="answer_exp">回答投稿</h5>
+         <textarea required name="answer_text" id="answer_text" cols="40" rows="3"></textarea>
+         <div class="answer_post_btn">
+            <button class="btn btn btn-primary btn-block btn-large" type="submit" id="search_btn" name="post_user" value="{{ post_user.pk }}">投稿</button>
+         </div>
+      </div>
+   </form> 
+</div>
+
+{% endblock content %}

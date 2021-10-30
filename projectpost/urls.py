@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import loginOrSignupView, loginView, signupView, profileView, setProfileView, setReadBookView, recordBookView, setBookView, bookRankingView, impressionsView, questionRoomsView, booksImpressionsView
+from .views import loginOrSignupView, loginView, signupView, profileView, setProfileView, setReadBookView, recordBookView, setBookView, bookRankingView, impressionsView, questionRoomsView, booksImpressionsView, questionsView, qAndARoomView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -18,6 +18,8 @@ urlpatterns = [
     path('bookRanking/', bookRankingView, name="bookRanking"),
     path('impressions/<int:isbn>', impressionsView, name="impressions"),
     path('questionRooms/', questionRoomsView, name="questionRoom"),
-    path('booksImpressions/', booksImpressionsView, name="booksImpressions")
+    path('booksImpressions/', booksImpressionsView, name="booksImpressions"),
+    path('questions/<str:room>', questionsView, name="questions"),
+    path('qAndARoom/<int:pk>', qAndARoomView, name="qAndARoom"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
 static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

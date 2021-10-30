@@ -86,6 +86,11 @@ $('#post_form').on('submit', function(e) {
         'dataType': 'json'
     })
     .done(function(response){
+        const error = response.error
+        if (error.length > 0){
+            document.getElementById('error').innerText = error
+            return
+        }
         const names = response.names
         const isbns = response.isbns
         const images = response.images

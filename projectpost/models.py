@@ -36,13 +36,16 @@ class readBooksModel(models.Model):
     order_junre = models.IntegerField(null=True, blank=True)
 
 
-class postModel(models.Model):
+class questionModel(models.Model):
     profile = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name="profileOf")
-    book = models.ForeignKey(bookModel, on_delete=models.CASCADE, related_name="postBookOf")
-    type = models.CharField(max_length=10)
-    to = models.IntegerField(null=True, blank=True, default=0)
-    good = models.IntegerField(null=True, blank=True, default=0)
-    language_junre = models.CharField(max_length=40, blank=True, null=True)
+    room = models.CharField(max_length=40, blank=True, null=True)
+    question = models.TextField()
+
+
+class answerModel(models.Model):
+    profile = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    response_to = models.ForeignKey(questionModel, on_delete=models.CASCADE)
+    answer = models.TextField()
 
 
 class languagesModel(models.Model):

@@ -20,11 +20,11 @@
             <p class="exp">本の言語</p>
             {% for language in languages %}
             <label>
-                <input type="radio" name="language" value="{{ language }}" id="{{ language }}">{{ language }}
+                <input type="radio" name="language" value="{{ language }}" id="{{ language }}" required>{{ language }}
             </label>
             {% endfor %}
             <label>
-                <input type="radio" name="language" value="none" id="none1">なし
+                <input type="radio" name="language" value="none" id="none1" required>なし
             </label>
         </div>
         
@@ -32,11 +32,11 @@
             <p class="exp">本のジャンル</p>
             {% for junre in junres %}
             <label>
-                <input type="radio" name="junre" value="{{ junre }}" id="{{ junre }}">{{ junre }}
+                <input type="radio" name="junre" value="{{ junre }}" id="{{ junre }}" required>{{ junre }}
             </label>
             {% endfor %}
             <label>
-                <input type="radio" name="junre" value="none" id="none2">なし
+                <input type="radio" name="junre" value="none" id="none2" required>なし
             </label>
         </div>
         <input hidden type="text" name="title" value="{{ title }}">
