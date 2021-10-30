@@ -176,7 +176,8 @@ h2{
 }
 
 .answer_data{
-  padding: 1rem;;
+  padding: 1rem;
+  width: 70%;
 }
 
 .answer_text{

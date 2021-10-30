@@ -36,7 +36,6 @@ var createBookButton = function(i, name, isbn, image, language, junre, value, sa
     var res = ""
     res += '<button class="none_btn" type="submit" name="isbn" value="' + isbn + '">'
     res += '<div class="book_data">'
-    res += '<div class="book_rank">' + String(i+1) + '位</div>'
     res += '<div class="book_image">'
     res += '<img src="' + image + '" alt="book image">'
     res += '</div>'

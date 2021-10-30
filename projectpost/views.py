@@ -335,7 +335,7 @@ def bookRankingView(request):
                 values.append(value)
                 samples.append(book.readBookOf.all().count())
             
-            d = {"names": names, "isbns": isbns, "images": images, "languages": languages, "junres": junres,  "values": values, "samples": samples}
+            d = {"error": "", "names": names, "isbns": isbns, "images": images, "languages": languages, "junres": junres,  "values": values, "samples": samples}
             return JsonResponse(d)
         else:
             isbn = request.POST.get('isbn')
